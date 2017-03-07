@@ -17,7 +17,7 @@ public class GnssConstants {
 	public static final double F = -2.0 * Math.sqrt(MU_M) / C;
 
 
-	/**
+	/*
 	 * Константы ГЛОНАСС
 	 */
 

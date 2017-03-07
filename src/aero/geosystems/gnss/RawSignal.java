@@ -1,6 +1,8 @@
 package aero.geosystems.gnss;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,10 +28,10 @@ public enum RawSignal {
 	GPS_L2_PY_CORRELATED(SatSystem.GPS, 2, 'W', GnssConstants.GPS_L2_FREQUENCY),
 	GPS_L5_Q(SatSystem.GPS, 5, 'Q', GnssConstants.GPS_L5_FREQUENCY),
 	GPS_L5_IQ(SatSystem.GPS,5,'X', GnssConstants.GPS_L5_FREQUENCY),
-	GLO_L1_CA(SatSystem.GLONASS, 1, 'C', GnssConstants.GLO_L1_FREQUENCY_MIN, GnssConstants.GLO_L1_FREQ_STEP),
-	GLO_L1_P(SatSystem.GLONASS, 1, 'P', GnssConstants.GLO_L1_FREQUENCY_MIN, GnssConstants.GLO_L1_FREQ_STEP),
-	GLO_L2_CA(SatSystem.GLONASS, 2, 'C', GnssConstants.GLO_L2_FREQUENCY_MIN, GnssConstants.GLO_L2_FREQ_STEP),
-	GLO_L2_P(SatSystem.GLONASS, 2, 'P', GnssConstants.GLO_L2_FREQUENCY_MIN, GnssConstants.GLO_L2_FREQ_STEP),
+	GLO_L1_CA(SatSystem.GLONASS, 1, 'C', GnssConstants.GLO_L1_FREQUENCY_0, GnssConstants.GLO_L1_FREQ_STEP),
+	GLO_L1_P(SatSystem.GLONASS, 1, 'P', GnssConstants.GLO_L1_FREQUENCY_0, GnssConstants.GLO_L1_FREQ_STEP),
+	GLO_L2_CA(SatSystem.GLONASS, 2, 'C', GnssConstants.GLO_L2_FREQUENCY_0, GnssConstants.GLO_L2_FREQ_STEP),
+	GLO_L2_P(SatSystem.GLONASS, 2, 'P', GnssConstants.GLO_L2_FREQUENCY_0, GnssConstants.GLO_L2_FREQ_STEP),
 	GLO_L3_IQ(SatSystem.GLONASS, 3, 'X', GnssConstants.GLO_L3_FREQUENCY),
 	GAL_E1B(SatSystem.GALILEO, 1, 'B', GnssConstants.GAL_E1_FREQUENCY),
 	GAL_E1C(SatSystem.GALILEO, 1, 'C', GnssConstants.GAL_E1_FREQUENCY),
@@ -82,6 +84,8 @@ public enum RawSignal {
 		return new int[]{1, 2, 5, 6, 7, 8, 0};
 	}
 
+	@Nullable
+	@Contract(pure = true)
 	public static RawSignal forIdx(int idx) {
 		if (idx < 0 || idx >= values.length) return null;
 		return values[idx];
@@ -99,8 +103,12 @@ public enum RawSignal {
 		this.frequencyStep = frequencyStep;
 	}
 
-	public double frequency(int idx) {
-		if (gnss != SatSystem.GLONASS) return frequency;
-		return frequency+gnss.idToIndex(idx)*frequencyStep;
+	@Contract(pure = true)
+	public double frequency(int fqidx) {
+		return frequency+fqidx*frequencyStep;
+	}
+	@Contract(pure = true)
+	public double wavelength(int fqidx) {
+		return GnssConstants.C/frequency(fqidx);
 	}
 }
