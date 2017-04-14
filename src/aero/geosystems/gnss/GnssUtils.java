@@ -204,8 +204,18 @@ public class GnssUtils {
 		return gt + leapSecondsU(constructGpsTime(ref_gps_week, gt)) * 1000;
 	}
 
+	/**
+	 * @param glo_time_ms GLONASS time with days part ignored
+	 * @param ref_gps_time Reference full GPS time
+	 * @return Full GPS time
+	 */
 	public static long gloms2gpstime(long glo_time_ms, long ref_gps_time) {
 		long gt = GnssUtils.addGuessedDays(ref_gps_time,glo_time_ms - GPS_GLO_DIFF);
+		return gt + leapSecondsU(gt) * 1000;
+	}
+
+	public static long glodms2gpstime(int glo_time_dow,long glo_time_ms,long ref_gps_time){
+		long gt = GnssUtils.addGuessedWeek(ref_gps_time,glo_time_dow*MS_IN_DAY+glo_time_ms);
 		return gt + leapSecondsU(gt) * 1000;
 	}
 
