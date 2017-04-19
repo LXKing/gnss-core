@@ -101,4 +101,17 @@ public enum SatSystem {
 		}
 		return null;
 	}
+
+	public static final int totalNumSats;
+	public static final int totalMaxId;
+	static {
+		int n = 0;
+		int maxid = 0;
+		for (SatSystem system : values()) {
+			n += system.numSats;
+			maxid = Math.max(maxid,Math.max(system.max1Id,system.max2Id));
+		}
+		totalNumSats = n;
+		totalMaxId = maxid;
+	}
 }

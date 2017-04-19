@@ -36,6 +36,7 @@ public class GnssUtils {
 	/**
 	 * Moscow: GMT +3:00.
 	 */
+	@SuppressWarnings("PointlessArithmeticExpression")
 	public static final long GPS_GLO_DIFF = 3L * 60L * 60L * 1000L - 1 * MS_IN_DAY;
 
 	/**
@@ -192,7 +193,7 @@ public class GnssUtils {
 	}
 
 	public static long gpsms2gloms(long gps_time_ms, long ref_gps_week) {
-		return (MS_IN_DAY+gps_time_ms + GPS_GLO_DIFF - leapSeconds(constructGpsTime(ref_gps_week, gps_time_ms)) * 1000) % MS_IN_DAY;
+		return (MS_IN_DAY + gps_time_ms + GPS_GLO_DIFF - leapSeconds(constructGpsTime(ref_gps_week, gps_time_ms)) * 1000) % MS_IN_DAY;
 	}
 
 	/**
@@ -205,17 +206,17 @@ public class GnssUtils {
 	}
 
 	/**
-	 * @param glo_time_ms GLONASS time with days part ignored
+	 * @param glo_time_ms  GLONASS time with days part ignored
 	 * @param ref_gps_time Reference full GPS time
 	 * @return Full GPS time
 	 */
 	public static long gloms2gpstime(long glo_time_ms, long ref_gps_time) {
-		long gt = GnssUtils.addGuessedDays(ref_gps_time,glo_time_ms - GPS_GLO_DIFF);
+		long gt = GnssUtils.addGuessedDays(ref_gps_time, glo_time_ms - GPS_GLO_DIFF);
 		return gt + leapSecondsU(gt) * 1000;
 	}
 
-	public static long glodms2gpstime(int glo_time_dow,long glo_time_ms,long ref_gps_time){
-		long gt = GnssUtils.addGuessedWeek(ref_gps_time,glo_time_dow*MS_IN_DAY+glo_time_ms);
+	public static long glodms2gpstime(int glo_time_dow, long glo_time_ms, long ref_gps_time) {
+		long gt = GnssUtils.addGuessedWeek(ref_gps_time, ((glo_time_dow+7-1)%7) * MS_IN_DAY + glo_time_ms - GPS_GLO_DIFF);
 		return gt + leapSecondsU(gt) * 1000;
 	}
 
@@ -245,6 +246,7 @@ public class GnssUtils {
 	 */
 	public static long addGuessedWeek(long gpstime, long msgms) {
 		// TODO выделить в метод DF-поля сообщения
+		msgms %= MS_IN_WEEK;
 		long week = extractGpsWeek(gpstime);
 		long ms = extractMs(gpstime);
 		if (Math.abs(msgms - ms) > (MS_IN_WEEK / 2)) {
@@ -268,6 +270,7 @@ public class GnssUtils {
 	 * @param gpstime --- ориентировочное "текущее" время
 	 */
 	public static long addGuessedDays(long gpstime, long msgms) {
+		msgms %= MS_IN_DAY;
 		long week = extractGpsWeek(gpstime);
 		long ms = extractMs(gpstime);
 		long day = week * 7 + ms / MS_IN_DAY;
@@ -304,11 +307,11 @@ public class GnssUtils {
 
 	/**
 	 * Относительные частоты ГЛОНАСС на 10.01.2012. Использовать если нет доступа к альманаху. Меняются редко
-	 *  1   2  3   4   5   6  7   8
-	 *  9  10 11  12  13  14 15  16
+	 * 1   2  3   4   5   6  7   8
+	 * 9  10 11  12  13  14 15  16
 	 * 17  18 19  20  21  22 23  24
 	 */
-	private static Integer[] gloFreqBands = {
+	public static Integer[] gloFreqBands = {
 			1, -4, 5, 6, 1, -4, 5, 6,
 			-2, -7, 0, -1, -2, -7, 0, -1,
 			4, -3, 3, 2, 4, -3, 3, 2,
@@ -325,9 +328,10 @@ public class GnssUtils {
 			return null;
 		}
 	}
+
 	public static Integer gloSatByFreq(int gloFreq) {
 		for (int i = 0; i < gloFreqBands.length; i++) {
-			if (gloFreqBands[i] != null && gloFreqBands[i] == gloFreq) return i+1;
+			if (gloFreqBands[i] != null && gloFreqBands[i] == gloFreq) return i + 1;
 		}
 		return null;
 	}
@@ -348,11 +352,11 @@ public class GnssUtils {
 		return gpstime / GnssUtils.MS_IN_DAY + 44244;
 	}
 
-	public static long mjdToGpstime(long mjd,long msOfDay) {
-		return (mjd-44244)*86400 + msOfDay;
+	public static long mjdToGpstime(long mjd, long msOfDay) {
+		return (mjd - 44244) * 86400 + msOfDay;
 	}
 
 	public static boolean isLeapSecond(long gpsTime) {
-		return Arrays.binarySearch(GPST_LEAP_EPOCHS,gpsTime) >= 0;
+		return Arrays.binarySearch(GPST_LEAP_EPOCHS, gpsTime) >= 0;
 	}
 }
