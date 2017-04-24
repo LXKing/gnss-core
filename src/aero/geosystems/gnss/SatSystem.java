@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public enum SatSystem {
 	GPS(32, 1, 37, "GPS", 'G'),
-	GLONASS(28, 38, 70, "GLO", 'R'),
+	GLONASS(24, 38, 62, "GLO", 'R'),
 	GALILEO(30, 71, 119, "GAL", 'E'),
 	SBAS(120, 142, "SBS", 'S'),
 	QZSS(3, 193, 197, "QZS", 'J'),
