@@ -464,6 +464,9 @@ public final class Datetime {
 		this.time = System.currentTimeMillis();
 		timeActual = true;
 	}
+	public static Datetime jan1(int year) {
+		return new Datetime(year,FIRST_MONTH,FIRST_DAY_OF_MONTH);
+	}
 
 	public Datetime(long unixGmtMs) {
 		this.time = unixGmtMs;
