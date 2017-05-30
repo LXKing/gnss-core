@@ -33,8 +33,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.8" level="project" />
-    <orderEntry type="library" exported="" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>
