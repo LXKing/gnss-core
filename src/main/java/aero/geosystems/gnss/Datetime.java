@@ -15,6 +15,7 @@ import java.util.Arrays;
 public final class Datetime {
 	public static final String DEFAULT_FORMAT = "YYYY-MM-DD HH:mm:ss.ccc";
 	public static final String DEFAULT_FORMAT_NOMS = "YYYY-MM-DD HH:mm:ss";
+	public static final String DEFAULT_FORMAT_DATE = "YYYY-MM-DD";
 	public static final String XML_FORMAT = "YYYY-MM-DDTHH:mm:ss.ccczUU:uu";
 	public static final String RFC_822_FORMAT = "WW, DD MMM YYYY HH:mm:ss \\G\\M\\T";
 
