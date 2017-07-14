@@ -111,4 +111,9 @@ public enum RawSignal {
 	public double wavelength(int fqidx) {
 		return GnssConstants.C/frequency(fqidx);
 	}
+	@Contract(pure = true)
+	public int nominalBand() {
+		if (bandIdx < 0 || bandIdx >= bands().length) return 0;
+		return bands()[bandIdx];
+	}
 }

@@ -3,6 +3,8 @@ package aero.geosystems.gnss;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+
 /**
  * Created by IntelliJ IDEA.
  * User: aimozg
@@ -100,6 +102,16 @@ public enum SatSystem {
 			if (gnss.charCode == c) return gnss;
 		}
 		return null;
+	}
+
+	public static EnumSet<SatSystem> fromOneCharString(@NotNull String s) {
+		if ("*".equals(s)) return EnumSet.allOf(SatSystem.class);
+		EnumSet<SatSystem> rslt = EnumSet.noneOf(SatSystem.class);
+		for (int i = 0; i<s.length(); i++) {
+			SatSystem gnss = byCharCode(s.charAt(i));
+			if (gnss!=null) rslt.add(gnss);
+		}
+		return rslt;
 	}
 
 	public static final int totalNumSats;
