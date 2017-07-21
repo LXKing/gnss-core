@@ -1,5 +1,7 @@
 apply plugin: 'java'
 
+group = 'aero.geosystems'
+version = '17.0720'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 

@@ -64,11 +64,7 @@ public enum SatSystem {
 		this(-1, minId, maxId, -2, -1, threeLetterName, charCode);
 	}
 
-	SatSystem(int min1Id, int max1Id, int min2Id, int max2Id, String threeLetterName, char charCode) {
-		this(-1, min1Id, max1Id, min2Id, max2Id, threeLetterName, charCode);
-	}
-
-	SatSystem(int numSats, int min1Id, int max1Id, int min2Id, int max2Id, String threeLetterName, char charCode) {
+	SatSystem(int numSats, int min1Id, int max1Id, int min2Id, int max2Id, @NotNull String threeLetterName, char charCode) {
 		this.min1Id = min1Id;
 		this.max1Id = max1Id;
 		this.min2Id = min2Id;
