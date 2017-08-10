@@ -33,9 +33,11 @@ public enum RawSignal {
 	GLO_L2_CA(SatSystem.GLONASS, 2, 'C', GnssConstants.GLO_L2_FREQUENCY_0, GnssConstants.GLO_L2_FREQ_STEP),
 	GLO_L2_P(SatSystem.GLONASS, 2, 'P', GnssConstants.GLO_L2_FREQUENCY_0, GnssConstants.GLO_L2_FREQ_STEP),
 	GLO_L3_IQ(SatSystem.GLONASS, 3, 'X', GnssConstants.GLO_L3_FREQUENCY),
+	GAL_E1A(SatSystem.GALILEO, 1, 'A', GnssConstants.GAL_E1_FREQUENCY),
 	GAL_E1B(SatSystem.GALILEO, 1, 'B', GnssConstants.GAL_E1_FREQUENCY),
 	GAL_E1C(SatSystem.GALILEO, 1, 'C', GnssConstants.GAL_E1_FREQUENCY),
 	GAL_E1BC(SatSystem.GALILEO, 1, 'X', GnssConstants.GAL_E1_FREQUENCY),
+	GAL_E1ABC(SatSystem.GALILEO, 1, 'Z', GnssConstants.GAL_E1_FREQUENCY),
 	GAL_E5a_Q(SatSystem.GALILEO, 5, 'Q', GnssConstants.GAL_E5a_FREQUENCY),
 	GAL_E5a_IQ(SatSystem.GALILEO, 5, 'X', GnssConstants.GAL_E5a_FREQUENCY),
 	GAL_E5b_Q(SatSystem.GALILEO, 7, 'Q', GnssConstants.GAL_E5b_FREQUENCY),
@@ -72,9 +74,11 @@ public enum RawSignal {
 	));
 	public static final Set<RawSignal> CA_CODE = Collections.unmodifiableSet(EnumSet.of(
 			GPS_L1_CA,
-			GPS_L2_C,
-			GPS_L1_CA,
-			GLO_L2_CA
+			GPS_L2_C, GPS_L2C_L, GPS_L2C_M, GPS_L2C_ML,
+			GLO_L1_CA,
+			GLO_L2_CA,
+			GAL_E1A, GAL_E1B, GAL_E1C, GAL_E1BC, GAL_E1ABC,
+			SBAS_L1CA
 	));
 
 	private static final RawSignal[] values = values();

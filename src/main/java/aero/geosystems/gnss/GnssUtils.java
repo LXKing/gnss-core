@@ -195,6 +195,17 @@ public class GnssUtils {
 	public static long gpsms2gloms(long gps_time_ms, long ref_gps_week) {
 		return (MS_IN_DAY + gps_time_ms + GPS_GLO_DIFF - leapSeconds(constructGpsTime(ref_gps_week, gps_time_ms)) * 1000) % MS_IN_DAY;
 	}
+	public static long gps2gloms(long gpstime) {
+		return (MS_IN_DAY + (gpstime%MS_IN_WEEK) + GPS_GLO_DIFF - leapSeconds(gpstime) * 1000) % MS_IN_DAY;
+	}
+
+	public static long gps2bdt(long gpstime) {
+		return gpstime - 14*1000;
+	}
+
+	public static long bdt2gps(long gpstime) {
+		return gpstime + 14*1000;
+	}
 
 	/**
 	 * @deprecated Use {@link GnssUtils#gloms2gpstime}
@@ -218,6 +229,11 @@ public class GnssUtils {
 	public static long glodms2gpstime(int glo_time_dow, long glo_time_ms, long ref_gps_time) {
 		long gt = GnssUtils.addGuessedWeek(ref_gps_time, ((glo_time_dow+7-1)%7) * MS_IN_DAY + glo_time_ms - GPS_GLO_DIFF);
 		return gt + leapSecondsU(gt) * 1000;
+	}
+
+	public static int gpstime2glodow(long gpstime_full) {
+		long glowms = gpstime_full + GPS_GLO_DIFF - leapSeconds(gpstime_full) * 1000;
+		return (int) ((glowms/MS_IN_DAY + 1) % 7);
 	}
 
 	/**
