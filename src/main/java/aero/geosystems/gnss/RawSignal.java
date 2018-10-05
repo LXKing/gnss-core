@@ -117,7 +117,7 @@ public enum RawSignal {
 	}
 	@Contract(pure = true)
 	public int nominalBand() {
-		if (bandIdx < 0 || bandIdx >= bands().length) return 0;
-		return bands()[bandIdx];
+		if (bandIdx <= 0 || bandIdx > bands().length) return 0;
+		return bands()[bandIdx-1];
 	}
 }
