@@ -23,8 +23,8 @@ public class GnssUtils {
 	private GnssUtils() {
 	}
 
-	public static final long MS_IN_HOUR = 60L * 60L * 1000L;
-	public static final long MS_IN_DAY = 24L * MS_IN_HOUR;
+	public static final long MS_IN_HOUR = 60L * 60L * 1000L; // 3_600_000L
+	public static final long MS_IN_DAY = 24L * MS_IN_HOUR; // 86_400_000L
 	/**
 	 * 6 Jan 1980 - 1 Jan 1970
 	 * = 5 дней (1янв-6янв)
@@ -32,7 +32,7 @@ public class GnssUtils {
 	 * + 10 невисокосных лет (1970-1979)
 	 */
 	public static final long GPS_UNIX_DIFF = (5L + 2L + 10L * 365L) * MS_IN_DAY;
-	public static final long MS_IN_WEEK = 7L * MS_IN_DAY;
+	public static final long MS_IN_WEEK = 7L * MS_IN_DAY; // 604_800_000
 	/**
 	 * Moscow: GMT +3:00.
 	 */
