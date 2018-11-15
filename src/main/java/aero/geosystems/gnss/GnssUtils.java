@@ -75,7 +75,11 @@ public class GnssUtils {
 	 * Конвертация GPS --> UNIX
 	 */
 	public static long gps2unix(long gps_time_ms) {
-		return gps_time_ms + GPS_UNIX_DIFF - leapSeconds(gps_time_ms) * 1000;
+		return gps_time_ms + gpsUnixDiffAt(gps_time_ms);
+	}
+
+	public static long gpsUnixDiffAt(long gps_time_ms) {
+		return GPS_UNIX_DIFF - leapSeconds(gps_time_ms) * 1000;
 	}
 
 	/**
