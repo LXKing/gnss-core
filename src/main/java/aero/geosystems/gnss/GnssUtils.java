@@ -5,18 +5,22 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 /**
- * Класс утилит для работы с GPS (в основном --- с GPS-временем).
+ * GPS (time mostly) utility class
  * <p/>
- * GPS-время --- число миллисекунд с 6 января 1980 года. При этом секунды координации не "пропускаются" как в
- * UNIX-времени
+ * Here <b>GPS time</b> or <b>gpstime</b> --- number of milliseconds since 6 January 1980.
+ * Unlike UNIX time, leap constants are epoch increments, not "repeated epochs"
  * <p/>
- * UNIX: 123456789.00 123456789.50 123456789.99 123456789.00 123456789.50 123456789.99 1234567890.00
- * GPS:  123456789.00 123456789.50 123456789.99 123456790.00 123456790.50 123456790.99 1234567891.00
+ * Example transition of time with and without leap seconds
+ * Time      : 23:59:59.000 23:59:59.500 23:59:59.999 23:59:60.000 23:59:60.500 23:59:60.999 00:00:00.000
+ * With LS   :   ...800.000      800.500      800.999      801.000      801.500      801.999      802.000
+ * Without LS:   ...800.000      800.500      800.999      800.000      800.500      800.999      801.000
+ *
+ * By default, GPS time is with LS (with increments); UNIX time is without LS (with repeats)
  */
 public class GnssUtils {
 
 	/**
-	 * 1.01.2100 +1 минута -секунды координации
+	 * 1.01.2100 plus 1 minute minus leap seconds
 	 */
 	public static final long Y2100 = 3786480060000L;
 
@@ -27,9 +31,9 @@ public class GnssUtils {
 	public static final long MS_IN_DAY = 24L * MS_IN_HOUR; // 86_400_000L
 	/**
 	 * 6 Jan 1980 - 1 Jan 1970
-	 * = 5 дней (1янв-6янв)
-	 * + 2 дня (28 февраля 1972 и 1976)
-	 * + 10 невисокосных лет (1970-1979)
+	 * = 5 days (1 Jan - 6 Jan)
+	 * + 2 days (28 Feb 1972 and 1976)
+	 * + 10 non-leap years (1970-1979)
 	 */
 	public static final long GPS_UNIX_DIFF = (5L + 2L + 10L * 365L) * MS_IN_DAY;
 	public static final long MS_IN_WEEK = 7L * MS_IN_DAY; // 604_800_000
@@ -40,7 +44,7 @@ public class GnssUtils {
 	public static final long GPS_GLO_DIFF = 3L * 60L * 60L * 1000L - 1 * MS_IN_DAY;
 
 	/**
-	 * Секунды координации
+	 * Known leap seconds
 	 */
 	public static final long[] GPST_LEAP_EPOCHS = {
 			46828800000L,  // 30.06.1981 23:59:60
@@ -64,7 +68,7 @@ public class GnssUtils {
 	};
 
 	/**
-	 * Число секунд координации на текущее время
+	 * Number of leap seconds at current moment
 	 */
 	public static int getLeapSeconds() {
 		return leapSeconds(gpstime());
@@ -72,7 +76,7 @@ public class GnssUtils {
 
 
 	/**
-	 * Конвертация GPS --> UNIX
+	 * GPS time --> UNIX time
 	 */
 	public static long gps2unix(long gps_time_ms) {
 		return gps_time_ms + gpsUnixDiffAt(gps_time_ms);
@@ -83,7 +87,7 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Число секунд коордианции на указанное время
+	 * Number of leap seconds at specific gpstime
 	 */
 	public static int leapSeconds(long gps_time_ms) {
 		for (int i = GPST_LEAP_EPOCHS.length - 1; i >= 0; i--) {
@@ -95,7 +99,7 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Число секунд координации на указанное время, содержащее секунды координации
+	 * Number of leap seconds at specific "gpstime with missing leap seconds"
 	 */
 	public static int leapSecondsU(long gps_time_ms) {
 		for (int i = GPST_LEAP_EPOCHS.length - 1; i >= 0; i--) {
@@ -107,14 +111,14 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Конвертация (GPS --> UNIX с секундами координации)
+	 * GPS --> UNIX with leap seconds
 	 */
 	public static long gps2unix_leap(long gps_time_ms) {
 		return gps_time_ms + GPS_UNIX_DIFF;
 	}
 
 	/**
-	 * Конвертация UNIX --> GPS
+	 * UNIX --> GPS
 	 */
 	public static long unix2gps(long unix_time_ms) {
 		long gt = unix_time_ms - GPS_UNIX_DIFF;
@@ -122,21 +126,21 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Конвертация (UNIX с секундами координации) --> GPS
+	 * UNIX with leap seconds --> GPS
 	 */
 	public static long unix2gps_leap(long unix_time_ms) {
 		return unix_time_ms - GPS_UNIX_DIFF;
 	}
 
 	/**
-	 * Текущее GPS-время по системным часам. Не следует использовать для вычислений
+	 * Current GPS time using system time. Don't rely upon it
 	 */
 	public static long gpstime() {
 		return unix2gps(System.currentTimeMillis());
 	}
 
 	/**
-	 * Извлекает номер GPS-недели из времени GPS
+	 * GPS time --> GPS week number
 	 */
 	public static long extractGpsWeek(long gpstime) {
 		return gpstime / MS_IN_WEEK;
@@ -145,14 +149,14 @@ public class GnssUtils {
 	public static final Datetime BDT_ZEROTIME = new Datetime(2006, 1, 1);
 
 	/**
-	 * Извлекает номер BDS-недели из времени GPS
+	 * GPS time --> BDS week number
 	 */
 	public static long extractBdsWeek(long gpstime) {
 		return (gpstime - BDT_ZEROTIME.getTime()) / MS_IN_WEEK;
 	}
 
 	/**
-	 * Извлекает число миллисекунд с начала недели из времени GPS
+	 * GPS time --> GPS ms of week
 	 */
 	public static long extractMs(long gpstime) {
 		return gpstime % MS_IN_WEEK;
@@ -190,7 +194,7 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Конструирует GPS-время из номера недели и числа миллисекунд
+	 * GPS week number + GPS ms of week --> GPS time
 	 */
 	public static long constructGpsTime(long week, long ms) {
 		return week * MS_IN_WEEK + ms;
@@ -241,14 +245,14 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Перевод из градусов/минут/секунд в градусы
+	 * Integer degrees + integer minutes + decimal seconds --> decimal degrees
 	 */
 	public static double dms2deg(int deg, int min, double sec) {
 		return deg + (min + sec / 60.0) / 60.0;
 	}
 
 	/**
-	 * Перевод из градусов в градусы/минуты/секунды
+	 * Decimal degrees --> integer degrees + integer minutes + decimal seconds
 	 */
 	@NotNull
 	public static double[] deg2dms(double deg) {
@@ -260,9 +264,9 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Возвращает полное GPS-время по имеющемуся числу миллисекунд с начала недели {@code msgms}.
-	 *
-	 * @param gpstime --- ориентировочное "текущее" время
+	 * GPS time that is:
+	 * - closest to reference {@code gpstime}
+	 * - with {@code msgms} ms of week
 	 */
 	public static long addGuessedWeek(long gpstime, long msgms) {
 		// TODO выделить в метод DF-поля сообщения
@@ -270,12 +274,10 @@ public class GnssUtils {
 		long week = extractGpsWeek(gpstime);
 		long ms = extractMs(gpstime);
 		if (Math.abs(msgms - ms) > (MS_IN_WEEK / 2)) {
-			// Разница между миллисекундной состявляющей
-			// текущего времени и времени сообщения велика.
-			// Значит, они относятся к разным (соседним) неделям
+			// Too big ms-of-week difference - assume times are from different weeks
 			if (msgms < ms) {
-				// У сообщения миллисекунд меньше, чем в системе.
-				// Значит, часы сообщения перешли на следующую неделю
+				// If target ms-of-week is less than reference time-of-week,
+				// target ms-of-week is from next week (rollover --> small numbers)
 				week++;
 			} else {
 				week--;
@@ -285,9 +287,9 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Возвращает полное GPS-время по имеющемуся числу миллисекунд с начала дня ({@code msgms}).
-	 *
-	 * @param gpstime --- ориентировочное "текущее" время
+	 * GPS time that is:
+	 * - closest to reference {@code gpstime}
+	 * - with {@code msgms} ms of day
 	 */
 	public static long addGuessedDays(long gpstime, long msgms) {
 		msgms %= MS_IN_DAY;
@@ -306,9 +308,9 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Возвращает полное GPS-время по имеющемуся числу миллисекунд с начала часа ({@code msgms}).
-	 *
-	 * @param gpstime --- ориентировочное "текущее" время
+	 * GPS time that is:
+	 * - closest to reference {@code gpstime}
+	 * - with {@code msgms} ms of hour
 	 */
 	public static long addGuessedHours(long gpstime, long msgms) {
 		long week = extractGpsWeek(gpstime);
@@ -326,10 +328,11 @@ public class GnssUtils {
 	}
 
 	/**
-	 * Относительные частоты ГЛОНАСС на 10.01.2012. Использовать если нет доступа к альманаху. Меняются редко
-	 * 1   2  3   4   5   6  7   8
-	 * 9  10 11  12  13  14 15  16
-	 * 17  18 19  20  21  22 23  24
+	 * Relative GLONASS frequency numbers as of 10.01.2012.
+	 * Can be used as substitute in absence of almanac
+	 * |  1   2  3   4   5   6  7   8
+	 * |  9  10 11  12  13  14 15  16
+	 * | 17  18 19  20  21  22 23  24
 	 */
 	public static Integer[] gloFreqBands = {
 			1, -4, 5, 6, 1, -4, 5, 6,
@@ -338,8 +341,8 @@ public class GnssUtils {
 			null, -5, null, null, null};
 
 	/**
-	 * @param gloSat номер спутника 1-24
-	 * @return Номер частоты ГЛОАНСС
+	 * @param gloSat GLONASS satellite number 1-24
+	 * @return GLONASS frequency number
 	 */
 	public static Integer gloFreqBand(int gloSat) {
 		try {
