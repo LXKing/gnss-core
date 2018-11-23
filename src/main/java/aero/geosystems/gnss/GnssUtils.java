@@ -36,7 +36,9 @@ public class GnssUtils {
 	 * + 10 non-leap years (1970-1979)
 	 */
 	public static final long GPS_UNIX_DIFF = (5L + 2L + 10L * 365L) * MS_IN_DAY;
+	public static final long GPS_UNIX_DIFF_S = GPS_UNIX_DIFF / 1000;
 	public static final long MS_IN_WEEK = 7L * MS_IN_DAY; // 604_800_000
+	public static final long SEC_IN_WEEK = MS_IN_WEEK/1000;
 	/**
 	 * Moscow: GMT +3:00.
 	 */
