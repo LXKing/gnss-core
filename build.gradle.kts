@@ -1,31 +1,19 @@
-buildscript {
-    val kotlinVersion: String by extra("1.3.11")
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    }
-}
-
 plugins {
-    id("java")
+	id("java")
 }
 
 group = "aero.geosystems"
-version = "18.1112"
+version = "19.0124"
 
-tasks.withType<JavaCompile> {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
+configure<JavaPluginConvention> {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 dependencies {
-    compile(group="org.jetbrains", name="annotations", version="13.0")
-    testCompile(group="junit", name="junit", version="4.8")
+	compile(group = "org.jetbrains", name = "annotations", version = "13.0")
+	testCompile(group = "junit", name = "junit", version = "4.8")
 }
