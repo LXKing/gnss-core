@@ -59,51 +59,81 @@ public class GnssConstants {
 	/**
 	 * GPS L1 Frequency [Hz]
 	 */
-	public static final long GPS_L1_FREQUENCY = 1575420000L;
+	public static final long GPS_L1_FREQUENCY = 1_575_420_000L;
 	/**
 	 * GPS L2 Frequency [Hz]
 	 */
-	public static final long GPS_L2_FREQUENCY = 1227600000L;
-	public static final long GPS_L5_FREQUENCY = 1176450000L;
+	public static final long GPS_L2_FREQUENCY = 1_227_600_000L;
+	public static final long GPS_L5_FREQUENCY = 1_176_450_000L;
 	/**
-	 * GLONASS L1 central frequency [Hz]
+	 * GLONASS G1 central frequency [Hz]
 	 */
-	public static final long GLO_L1_FREQUENCY_0 = 1602000000L;
+	public static final long GLO_G1_FREQUENCY_0 = 1_602_000_000L;
+	@Deprecated
+	public static final long GLO_L1_FREQUENCY_0 = GLO_G1_FREQUENCY_0;
 	/**
-	 * GLONASS L1 frequency step [Hz]
+	 * GLONASS G1 frequency step [Hz]
 	 */
-	public static final long GLO_L1_FREQ_STEP = 562500L;
+	public static final long GLO_G1_FREQ_STEP = 562500L;
+	@Deprecated
+	public static final long GLO_L1_FREQ_STEP = GLO_G1_FREQ_STEP;
 	/**
-	 * GLONASS L1 minimal frequency [Hz]
+	 * GLONASS G1 minimal frequency [Hz]
 	 */
-	public static final long GLO_L1_FREQUENCY_MIN = GLO_L1_FREQUENCY_0-7*GLO_L1_FREQ_STEP;
+	public static final long GLO_G1_FREQUENCY_MIN = GLO_G1_FREQUENCY_0-7*GLO_G1_FREQ_STEP;
+	@Deprecated
+	public static final long GLO_L1_FREQUENCY_MIN = GLO_G1_FREQUENCY_MIN;
 	/**
-	 * GLONASS L2 central frequency [Hz]
+	 * GLONASS G2 central frequency [Hz]
 	 */
-	public static final long GLO_L2_FREQUENCY_0 = 1246000000L;
+	public static final long GLO_G2_FREQUENCY_0 = 1_246_000_000L;
+	@Deprecated
+	public static final long GLO_L2_FREQUENCY_0 = GLO_G2_FREQUENCY_0;
 	/**
-	 * GLONASS L2 frequency step [Hz]
+	 * GLONASS G2 frequency step [Hz]
 	 */
-	public static final long GLO_L2_FREQ_STEP = 437500L;
+	public static final long GLO_G2_FREQ_STEP = 437500L;
+	@Deprecated
+	public static final long GLO_L2_FREQ_STEP = GLO_G2_FREQ_STEP;
 	/**
-	 * GLONASS L2 minimal frequency [Hz]
+	 * GLONASS G2 minimal frequency [Hz]
 	 */
-	public static final long GLO_L2_FREQUENCY_MIN = GLO_L2_FREQUENCY_0-7*GLO_L2_FREQ_STEP;
-	public static final long GLO_L3_FREQUENCY = 1202025000L;
-	public static final long GAL_E1_FREQUENCY = 1575420000L;
-	public static final long GAL_E2_FREQUENCY = 1278750000L;
-	public static final long GAL_E5_FREQUENCY = 1191795000L;
-	public static final long GAL_E5a_FREQUENCY = 1176450000L;
-	public static final long GAL_E5b_FREQUENCY = 1207140000L;
-	public static final long QZSS_L1_FREQUENCY = 1575420000L;
-	public static final long QZSS_L2_FREQUENCY = 1227600000L;
-	public static final long QZSS_L5_FREQUENCY = 1176450000L;
-	public static final long QZSS_LEX_FREQUENCY = 1278750000L;
-	public static final long BDS_B1_FREQUENCY = 1561098000L;
-	public static final long BDS_B2_FREQUENCY = 1207140000L;
-	public static final long BDS_B3_FREQUENCY = 1268520000L;
-	public static final long SBAS_L1_FREQUENCY = 1575420000L;
-	public static final long SBAS_L5_FREQUENCY = 1176450000L;
+	public static final long GLO_G2_FREQUENCY_MIN = GLO_G2_FREQUENCY_0-7*GLO_G2_FREQ_STEP;
+	public static final long GLO_L2_FREQUENCY_MIN = GLO_G2_FREQUENCY_MIN;
+	public static final long GLO_G1A_FREQUENCY = 1_600_995_000L;
+	public static final long GLO_G2A_FREQUENCY = 1_248_060_000L;
+	public static final long GLO_G3_FREQUENCY = 1_202_025_000L;
+	@Deprecated
+	public static final long GLO_L3_FREQUENCY = GLO_G3_FREQUENCY;
+
+	public static final long GAL_E1_FREQUENCY = 1_575_420_000L;
+	public static final long GAL_E5_FREQUENCY = 1_191_795_000L;
+	public static final long GAL_E5a_FREQUENCY = 1_176_450_000L;
+	public static final long GAL_E5b_FREQUENCY = 1_207_140_000L;
+	public static final long GAL_E6_FREQUENCY = 1_278_750_000L;
+
+	public static final long QZSS_L1_FREQUENCY = 1_575_420_000L;
+	public static final long QZSS_L2_FREQUENCY = 1_227_600_000L;
+	public static final long QZSS_L5_FREQUENCY = 1_176_450_000L;
+	public static final long QZSS_LEX_FREQUENCY = 1_278_750_000L;
+	public static final long QZSS_L6_FREQUENCY = QZSS_LEX_FREQUENCY;
+
+	public static final long BDS_B1I_FREQUENCY = 1_561_098_000L;
+	public static final long BDS_B3_FREQUENCY = 1_268_520_000L;
+	public static final long BDS_B2A_FREQUENCY = 1_176_450_000L;
+	public static final long BDS_B2B_FREQUENCY = 1_207_140_000L;
+	public static final long BDS_B2AB_FREQUENCY = 1_191_795_000L;
+	public static final long BDS_B1C_FREQUENCY = 1_575_420_000L;
+	@Deprecated
+	public static final long BDS_B1_FREQUENCY = BDS_B1I_FREQUENCY;
+	@Deprecated
+	public static final long BDS_B2_FREQUENCY = BDS_B2B_FREQUENCY;
+
+	public static final long SBAS_L1_FREQUENCY = 1_575_420_000L;
+	public static final long SBAS_L5_FREQUENCY = 1_176_450_000L;
+
+	public static final long IRNSS_L5_FREQUENCY = 1_176_450_000L;
+	public static final long IRNSS_S_FREQUENCY = 2_492_028_000L;
 
 	/**
 	 * GLONASS L1 frequency [Hz]
@@ -111,7 +141,7 @@ public class GnssConstants {
 	 * @param fidx Relative frequency index (-7..+7)
 	 */
 	public static long gloFreqL1(int fidx) {
-		return GLO_L1_FREQUENCY_0 + fidx * GLO_L1_FREQ_STEP;
+		return GLO_G1_FREQUENCY_0 + fidx * GLO_G1_FREQ_STEP;
 	}
 
 	/**
@@ -120,7 +150,7 @@ public class GnssConstants {
 	 * @param fidx Relative frequency index (-7..+7)
 	 */
 	public static long gloFreqL2(int fidx) {
-		return GLO_L2_FREQUENCY_0 + fidx * GLO_L2_FREQ_STEP;
+		return GLO_G2_FREQUENCY_0 + fidx * GLO_G2_FREQ_STEP;
 	}
 
 	/**
@@ -150,16 +180,23 @@ public class GnssConstants {
 	 */
 	public static final double GPS_L2_WAVELENGTH = C / GPS_L2_FREQUENCY;
 	public static final double GPS_L5_WAVELENGTH = C / GPS_L5_FREQUENCY;
+
 	public static final double GAL_E1_WAVELENGTH = C / GAL_E1_FREQUENCY;
-	public static final double GAL_E2_WAVELENGTH = C / GAL_E2_FREQUENCY;
 	public static final double GAL_E5_WAVELENGTH = C / GAL_E5_FREQUENCY;
 	public static final double GAL_E5a_WAVELENGTH = C / GAL_E5a_FREQUENCY;
 	public static final double GAL_E5b_WAVELENGTH = C / GAL_E5b_FREQUENCY;
+	public static final double GAL_E6_WAVELENGTH = C / GAL_E6_FREQUENCY;
+
 	public static final double QZSS_L1_WAVELENGTH = C / QZSS_L1_FREQUENCY;
 	public static final double QZSS_L2_WAVELENGTH = C / QZSS_L2_FREQUENCY;
 	public static final double QZSS_L5_WAVELENGTH = C / QZSS_L5_FREQUENCY;
 	public static final double QZSS_LEX_WAVELENGTH = C / QZSS_LEX_FREQUENCY;
-	public static final double BDS_B1_WAVELENGTH = C / BDS_B1_FREQUENCY;
-	public static final double BDS_B2_WAVELENGTH = C / BDS_B2_FREQUENCY;
+
+	public static final double BDS_B1I_WAVELENGTH = C / BDS_B1I_FREQUENCY;
+	@Deprecated
+	public static final double BDS_B1_WAVELENGTH = BDS_B1I_WAVELENGTH;
+	public static final double BDS_B2B_WAVELENGTH = C / BDS_B2B_FREQUENCY;
+	@Deprecated
+	public static final double BDS_B2_WAVELENGTH = BDS_B2B_WAVELENGTH;
 	public static final double BDS_B3_WAVELENGTH = C / BDS_B3_FREQUENCY;
 }

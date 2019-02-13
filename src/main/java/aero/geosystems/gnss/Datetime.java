@@ -47,7 +47,7 @@ public final class Datetime {
 		long min = durms % 60;
 		durms /= 60;
 		long hr = durms % 24;
-		long days = hr / 24;
+		long days = durms / 24;
 		String result = (ms > 0 && withms) ? String.format("%d%s%03d%s", sec, decsep, ms, ns) : (sec + (ms + 500) / 1000 + ns);
 		if (min > 0 || hr > 0 || days > 0) result = min + nm + result;
 		if (hr > 0 || days > 0) result = hr + nh + result;
